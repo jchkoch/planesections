@@ -16,6 +16,7 @@ dependencies = [
   "matplotlib",
   "PyniteFEA==0.0.96",
   "textalloc==0.0.10",
+  "scipy>=1.13.1",
 ]
 classifiers = [
 	'Development Status :: 5 - Production/Stable',

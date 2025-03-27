@@ -1,0 +1,71 @@
+#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+options: author:t broken-links:nil c:nil creator:nil
+#+options: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
+#+options: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+options: timestamp:t title:t toc:t todo:t |:t
+#+title: Demo
+#+date: <2025-03-27 Thu>
+#+author: James Koch
+#+email: james.koch@itke.uni-stuttgart.de
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 29.3 (Org mode 9.6.15)
+#+cite_export:
+
+#+begin_src python :session py :results graphics file output :file beam.png
+  import planesections as ps
+
+  # Define node locations, and support conditions
+  L = 5
+  beam = ps.newEulerBeam(L)
+
+  # Define beam and fixities
+  pinned = [1,1,0]
+  beam.setFixity(L*0.0, pinned, label = 'A')
+  beam.setFixity(L*0.5, pinned, label = 'B']
+
+  # Define point Loads
+  Pz = -1000
+  print(Pz)
+  beam.addVerticalLoad(L*0.5 - 0.5, Pz, label = 'D')
+  beam.addVerticalLoad(L*0.5 + 0.5, 1*Pz, label = 'E')
+  #beam.addVerticalLoad(L, Pz, label = 'E')
+
+  # Define distributed Loads
+  #beam.addDistLoadVertical(0, L, Pz)
+  #beam.addDistLoadVertical(1, L*0.3, 5*Pz)
+
+  # Plot the beam diagram
+  ps.plotBeamDiagram(beam)
+#+end_src
+
+#+RESULTS:
+[[file:beam.png]]
+
+
+#+begin_src python :session py :results output
+  # Run the analysis
+  analysis = ps.PyNiteAnalyzer2D(beam)
+  analysis.runAnalysis()
+#+end_src
+
+#+RESULTS:
+
+Plot the SFD
+
+#+begin_src python :session py :results graphics file output :file sfd.png
+  ps.plotShear(beam, scale = 0.001, yunit = 'kN')
+#+end_src
+
+#+RESULTS:
+[[file:sfd.png]]
+
+Plot the BMD
+
+#+begin_src python :session py :results graphics file output :file bmd.png
+  ps.plotMoment(beam, scale = 0.001, yunit = 'kNm')
+#+end_src
+
+#+RESULTS:
+[[file:bmd.png]]

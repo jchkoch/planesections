@@ -25,10 +25,11 @@ beam.addDistLoadVertical(0, L, Pz)
 beam.addDistLoadVertical(1, L*0.3, 5*Pz)
 
 # Plot the beam diagram
-ps.plotBeamDiagram(beam)
+fig = ps.plotBeamDiagram(beam)
+fig.savefig('demo.png')
 
 # Run the analysis
-analysis = ps.OpenSeesAnalyzer2D(beam)
+analysis = ps.PyNiteAnalyzer2D(beam)
 analysis.runAnalysis()
 
 # Plot the SFD and BMD
